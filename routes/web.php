@@ -19,7 +19,8 @@ Route::get('/', function () {
 });
 
 Route::get('/users', [UserController::class, 'index']);
-
+Route::get('/create', [UserController::class, 'create']);
+Route::post('/create', [UserController::class, 'store']);
 Route::any('/demo', function () {
     echo "Testing this demo route";
 });

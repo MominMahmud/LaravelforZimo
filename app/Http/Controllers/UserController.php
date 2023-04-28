@@ -14,7 +14,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        return view('index');
+        $name = 'Momin';
+        return view('index', ['name' => $name]);
     }
 
     /**
@@ -24,7 +25,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('create');
     }
 
     /**
@@ -35,7 +36,16 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user = new User;
+        $user->name = request('name');
+        $user->country = request('country');
+        $user->phone = request('phone');
+        $user->email = request('email');
+        $user->address = request('address');
+
+        $user->save();
+
+        return redirect('/create');
     }
 
     /**
