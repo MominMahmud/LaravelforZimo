@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,10 +18,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/test/{name?}/{id?}', function ($name = null, $id = null) {
-    $arr = compact('name', 'id');
-    return view('demo')->with($arr);
-});
+Route::get('/users', [UserController::class, 'index']);
 
 Route::any('/demo', function () {
     echo "Testing this demo route";
