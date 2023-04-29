@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -14,8 +15,20 @@ class UserController extends Controller
      */
     public function index()
     {
-        $name = 'Momin';
-        return view('index', ['name' => $name]);
+        $users = User::all();
+
+        $usersByCountry = DB::table('users')
+            ->select('country', DB::raw('count(*) as total'))
+            ->groupBy('country')
+            ->get();
+
+        // Prepare the data for the chart
+        $labels = $usersByCountry->pluck('country');
+        $data = $usersByCountry->pluck('total');
+
+        // Render the chart using a JavaScript library (e.g. Chart.js)
+        return view('index', compact('users','labels', 'data'));
+        
     }
 
     /**

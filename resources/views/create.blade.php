@@ -18,7 +18,7 @@
     <!-- place navbar here -->
   </header>
   <main>
-<form class="form-horizontal" action="create" method="post">
+<form class="form-horizontal" action="users" method="post">
     @csrf
     <fieldset>
         <legend></legend>

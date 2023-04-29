@@ -17,10 +17,6 @@ use App\Http\Controllers\UserController;
 Route::get('/', function () {
     return view('welcome');
 });
-
-Route::get('/users', [UserController::class, 'index']);
+Route::resource('users', UserController::class);
 Route::get('/create', [UserController::class, 'create']);
 Route::post('/create', [UserController::class, 'store']);
-Route::any('/demo', function () {
-    echo "Testing this demo route";
-});
