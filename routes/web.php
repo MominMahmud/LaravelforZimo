@@ -17,6 +17,7 @@ use App\Http\Controllers\UserController;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/export', 'App\Http\Controllers\ExportController@csv')->name('export.csv');
 Route::resource('users', UserController::class);
 Route::get('/create', [UserController::class, 'create']);
 Route::post('/create', [UserController::class, 'store']);

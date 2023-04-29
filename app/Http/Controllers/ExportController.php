@@ -2,84 +2,36 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Export;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Response;
 
 class ExportController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function csv()
     {
-        //
-    }
+        // Fetch the data from the "users" table
+        $users = DB::table('users')->select('id', 'name','country','phone', 'email','address', 'created_at','updated_at')->get();
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+        // Define the CSV headers and content
+        $headers = array(
+            "Content-type" => "text/csv",
+            "Content-Disposition" => "attachment; filename=users.csv",
+            "Pragma" => "no-cache",
+            "Cache-Control" => "must-revalidate, post-check=0, pre-check=0",
+            "Expires" => "0"
+        );
+        $columns = array('ID', 'Name', 'Country','Phone','Email','Address', 'Created At','Updated At');
+        $callback = function () use ($users, $columns) {
+            $file = fopen('php://output', 'w');
+            fputcsv($file, $columns);
+            foreach ($users as $user) {
+                fputcsv($file, array($user->id, $user->name,$user->country,$user->phone,$user->email, $user->address,$user->created_at,$user->updated_at));
+            }
+            fclose($file);
+        };
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Export  $export
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Export $export)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Export  $export
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Export $export)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Export  $export
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Export $export)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Export  $export
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Export $export)
-    {
-        //
+        // Return the CSV file as a download
+        return Response::stream($callback, 200, $headers);
     }
 }

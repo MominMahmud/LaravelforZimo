@@ -22,6 +22,8 @@
     <div class="container" style="height: 500px; width: 500px;">
 <canvas id="pieChart"></canvas>
 </div>
+<a href="{{ route('export.csv') }}" class="btn btn-success">Export to CSV</a>
+Click on the button to download the table in CSV format
     <table class="table table-dark">
   <thead>
     <tr>
@@ -52,6 +54,8 @@
 @endforeach
 </tbody>
 </table>
+
+
 <!-- <canvas id="user-country-chart"></canvas> -->
   </main>
 <!-- Inside chart.blade.php -->
