@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use Illuminate\Http\Request;
+use PDF;
+
 
 class UserController extends Controller
 {
@@ -13,6 +15,19 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+
+    public function download($id)
+    {
+        // Fetch the data for the specified user
+        $user = DB::table('users')->where('id', $id)->first();
+
+        // Generate the PDF content using the "dompdf" library
+        $pdf = PDF::loadView('pdf', compact('user'));
+
+        // Return the PDF file as a download
+        return $pdf->download('user-' . $user->id . '.pdf');
+    } 
     public function index()
     {
         $users = User::all();
@@ -105,4 +120,6 @@ class UserController extends Controller
     {
         //
     }
+
+
 }

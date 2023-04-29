@@ -35,6 +35,7 @@ Click on the button to download the table in CSV format
       <th>Address</th>
       <th>Created At</th>
       <th>Updated At</th>
+      <th>Information</th>
 </thead> 
  
 <tbody>
@@ -48,6 +49,7 @@ Click on the button to download the table in CSV format
     <td>{{$user->address}}</td>
     <td>{{$user->created_at}}</td>
     <td>{{$user->update_at}}</td>
+    <td><a href="{{ route('users.download', ['id' => $user->id]) }}" class="btn btn-primary">Download PDF</a></td>
     
   </tr>
  
